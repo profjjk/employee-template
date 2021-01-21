@@ -29,13 +29,58 @@ function createTeam() {
     },
     {
       type: "input",
-      name: "name",
+      name: "office",
       message: "What is the manager's office number?"
     },
-  ]).then(addEmployee)
+  ]).then(createEmployee)
 }
 
+function createEmployee() {
+  inquirer.prompt([
+    {
+      type: "list",
+      name: "role",
+      message: "Add a new employee by selecting their role: ",
+      choices: ["Engineer", "Intern", "Exit"]
+    }
+  ]).then((userChoice) => {
+    switch (userChoice.role) {
+      case "Engineer":
+        createEngineer();
+        break;
+      case "Intern":
+        //functionIntern();
+        break;
+      case "Exit":
+        break;
+    }
+  })
+}
 
+function createEngineer() {
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is the engineer's name?"
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "What is the engineer's ID number?"
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "What is the engineer's email?"
+    },
+    {
+      type: "input",
+      name: "github",
+      message: "What is the engineer's GitHub username?"
+    },
+  ]).then(createEmployee)
+}
 
 
 // Write code to use inquirer to gather information about the development team members,
