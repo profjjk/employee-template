@@ -49,7 +49,7 @@ function createEmployee() {
         createEngineer();
         break;
       case "Intern":
-        //functionIntern();
+        createIntern();
         break;
       case "Exit":
         break;
@@ -78,6 +78,31 @@ function createEngineer() {
       type: "input",
       name: "github",
       message: "What is the engineer's GitHub username?"
+    },
+  ]).then(createEmployee)
+}
+
+function createIntern() {
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is the intern's name?"
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "What is the intern's ID number?"
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "What is the intern's email?"
+    },
+    {
+      type: "input",
+      name: "school",
+      message: "What is the name of the intern's school?"
     },
   ]).then(createEmployee)
 }
