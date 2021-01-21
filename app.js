@@ -10,6 +10,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const teamMembers = [];
+
+createTeam();
+
 function createTeam() {
   inquirer.prompt([
     {
@@ -29,10 +33,15 @@ function createTeam() {
     },
     {
       type: "input",
-      name: "office",
+      name: "officeNumber",
       message: "What is the manager's office number?"
     },
-  ]).then(createEmployee)
+  ]).then(function(answers) {
+    let manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+    teamMembers.push(manager);
+    console.log("Manager: " + manager.name);
+    createEmployee();
+  })
 }
 
 function createEmployee() {
@@ -52,6 +61,7 @@ function createEmployee() {
         createIntern();
         break;
       case "Exit":
+        printTeam();
         break;
     }
   })
@@ -79,7 +89,12 @@ function createEngineer() {
       name: "github",
       message: "What is the engineer's GitHub username?"
     },
-  ]).then(createEmployee)
+  ]).then(function(answers) {
+    const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github)
+    teamMembers.push(engineer)
+    console.log("Engineer: " + engineer);
+    createEmployee();
+  })
 }
 
 function createIntern() {
@@ -104,7 +119,19 @@ function createIntern() {
       name: "school",
       message: "What is the name of the intern's school?"
     },
-  ]).then(createEmployee)
+  ]).then(function(answers) {
+    const intern = new Intern(answers.name, answers.id, answers.email, answers.school)
+    teamMembers.push(intern)
+    console.log("Intern: " + intern);
+    createEmployee();
+  })
+}
+
+function printTeam() {
+  console.log("\n---- TEAM ----\n")
+  teamMembers.forEach((employee) => {
+    console.log(employee.role + ": " + employee.name + " | ID#: " + employee.id + " | Email: " + employee.email + "\n");
+  });
 }
 
 
