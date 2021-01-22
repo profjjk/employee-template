@@ -11,6 +11,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 const teamMembers = [];
+const managers = [];
+const engineers = [];
+const interns = [];
 
 createTeam();
 
@@ -39,6 +42,7 @@ function createTeam() {
   ]).then(function(answers) {
     let manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
     teamMembers.push(manager);
+    managers.push(manager);
     console.log("Manager: " + manager.name);
     createEmployee();
   })
@@ -90,8 +94,9 @@ function createEngineer() {
       message: "What is the engineer's GitHub username?"
     },
   ]).then(function(answers) {
-    const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github)
-    teamMembers.push(engineer)
+    const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+    teamMembers.push(engineer);
+    engineers.push(engineer);
     console.log("Engineer: " + engineer);
     createEmployee();
   })
@@ -120,8 +125,9 @@ function createIntern() {
       message: "What is the name of the intern's school?"
     },
   ]).then(function(answers) {
-    const intern = new Intern(answers.name, answers.id, answers.email, answers.school)
-    teamMembers.push(intern)
+    const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+    teamMembers.push(intern);
+    interns.push(intern);
     console.log("Intern: " + intern);
     createEmployee();
   })
