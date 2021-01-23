@@ -10,10 +10,13 @@ const { createInflate } = require("zlib");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
+// DATA
+// ===========================================================
 const teamMembers = [];
 
+// MANAGER
+// ===========================================================
 createTeam();
-
 function createTeam() {
   inquirer.prompt([
     {
@@ -36,13 +39,15 @@ function createTeam() {
       name: "officeNumber",
       message: "What is the manager's office number?"
     },
-  ]).then(function(answers) {
+  ]).then( answers => {
     const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
     teamMembers.push(manager);
     createEmployee();
   })
 }
 
+// EMPLOYEE MENU
+// ===========================================================
 function createEmployee() {
   inquirer.prompt([
     {
@@ -66,13 +71,10 @@ function createEmployee() {
   })
 }
 
-function createFile() {
-  const renderedHTML = render(teamMembers);
-  fs.writeFileSync(outputPath, renderedHTML);
-}
-
+// ENGINEER
+// ===========================================================
 function createEngineer() {
-  const answers = inquirer.prompt([
+  inquirer.prompt([
     {
       type: "input",
       name: "name",
@@ -93,13 +95,15 @@ function createEngineer() {
       name: "github",
       message: "What is the engineer's GitHub username?"
     },
-  ]).then(function(answers) {
+  ]).then( answers => {
     const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
     teamMembers.push(engineer);
     createEmployee();
   })
 }
 
+// INTERN
+// ===========================================================
 function createIntern() {
   inquirer.prompt([
     {
@@ -122,10 +126,16 @@ function createIntern() {
       name: "school",
       message: "What is the name of the intern's school?"
     },
-  ]).then(function(answers) {
+  ]).then( answers => {
     const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
     teamMembers.push(intern);
     createEmployee();
   })
 }
 
+// RENDER TEAM HTML
+// ===========================================================
+function createFile() {
+  const renderedHTML = render(teamMembers);
+  fs.writeFileSync(outputPath, renderedHTML);
+}
