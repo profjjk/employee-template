@@ -4,16 +4,13 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const render = require("./lib/htmlRenderer");
+const { createInflate } = require("zlib");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./lib/htmlRenderer");
-
 const teamMembers = [];
-const managers = [];
-const engineers = [];
-const interns = [];
 
 createTeam();
 
@@ -40,10 +37,8 @@ function createTeam() {
       message: "What is the manager's office number?"
     },
   ]).then(function(answers) {
-    let manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+    const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
     teamMembers.push(manager);
-    managers.push(manager);
-    console.log("Manager: " + manager.name);
     createEmployee();
   })
 }
@@ -65,14 +60,20 @@ function createEmployee() {
         createIntern();
         break;
       case "Exit":
-        printTeam();
+        // printTeam();
+        createFile()
         break;
     }
   })
 }
 
+function createFile() {
+  const renderedHTML = render(teamMembers);
+  fs.writeFileSync(outputPath, renderedHTML);
+}
+
 function createEngineer() {
-  inquirer.prompt([
+  const answers = inquirer.prompt([
     {
       type: "input",
       name: "name",
@@ -96,8 +97,6 @@ function createEngineer() {
   ]).then(function(answers) {
     const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
     teamMembers.push(engineer);
-    engineers.push(engineer);
-    console.log("Engineer: " + engineer);
     createEmployee();
   })
 }
@@ -127,8 +126,6 @@ function createIntern() {
   ]).then(function(answers) {
     const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
     teamMembers.push(intern);
-    interns.push(intern);
-    console.log("Intern: " + intern);
     createEmployee();
   })
 }
