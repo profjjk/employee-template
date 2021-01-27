@@ -1,7 +1,5 @@
 # Employee Summary Template Engine
 
-# My Portfolio Webpage
-
 ## Table of Contents
 * [Project Summary](##project-summary)
 * [Technologies Used](##technologies-used)
